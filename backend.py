@@ -3,56 +3,30 @@ import json
 
 app = Flask(__name__)
 
-@app.route("/login", methods=["POST"])
-def login():
-  email = request.json["email"]
-  password = request.json["password"]
+@app.route("/send-email", methods=["POST"])
+def send_email():
+  to = request.json["to"]
+  subject = request.json["subject"]
+  message = request.json["message"]
 
-  # Validate the email and password
+  # Send the email using your preferred email service provider
+  # For example, to send an email using Gmail:
 
-  if email == "kuttydevilz@gmail.com" and password == "password":
-    return jsonify({
-      "message": "Login successful."
-    })
-  else:
-    return jsonify({
-      "error": "Invalid email or password."
-    })
+  import smtplib
 
-@app.route("/update-profile", methods=["GET", "POST"])
-def update_profile():
-  if request.method == "GET":
-    # Get the employee data from the JSON file
-    with open("employees.json", "r") as f:
-      employees = json.load(f)
+  gmail_username = "your_gmail_username"
+  gmail_password = "your_gmail_password"
 
-    # Get the employee's email address
-    email = request.args.get("email")
+  server = smtplib.SMTP("smtp.gmail.com", 587)
+  server.starttls()
+  server.login(gmail_username, gmail_password)
 
-    # Find the employee in the JSON file
-    employee = next(e for e in employees if e["Employee Email"] == email)
+  server.sendmail(gmail_username, to, f"Subject: {subject}\n\n{message}")
+  server.quit()
 
-    return jsonify(employee)
-  else:
-    # Update the employee's data in the JSON file
-    with open("employees.json", "w") as f:
-      employees = json.load(f)
-
-    # Get the employee's data from the request
-    employee_data = request.json
-
-    # Find the employee in the JSON file
-    employee = next(e for e in employees if e["Employee Email"] == employee_data["Employee Email"])
-
-    # Update the employee's data
-    employee.update(employee_data)
-
-    # Save the updated JSON file
-    json.dump(employees, f, indent=4)
-
-    return jsonify({
-      "message": "Profile updated successfully."
-    })
+  return jsonify({
+    "message": "Email sent successfully."
+  })
 
 if __name__ == "__main__":
   app.run(debug=True)
