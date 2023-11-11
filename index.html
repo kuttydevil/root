@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Expiry Date Notifications</title>
+  <title>Employee Management System</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="script.js"></script>
 </head>
 <body>
-  <h1>Expiry Date Notifications</h1>
+  <h1>Employee Management System</h1>
 
-  <form action="/login" method="post">
-    <input type="email" name="email" placeholder="Email">
-    <input type="password" name="password" placeholder="Password">
-    <button type="submit">Sign In</button>
-  </form>
+  <div id="employees"></div>
 
-  <h1>Log In</h1>
-
-  <form action="/update-profile" method="get">
-    <input type="email" name="email" placeholder="Email">
-    <button type="submit">Update Profile</button>
+  <form id="add-employee-form">
+    <input type="text" name="qid" placeholder="QID">
+    <input type="date" name="expiry_date" placeholder="Expiry Date">
+    <button type="submit">Add Employee</button>
   </form>
 </body>
 </html>
